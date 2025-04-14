@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>GameBattle - Register</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: url('bg.jpg') no-repeat center center fixed;
+      background-size: cover;
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .register-container {
+      background-color: rgba(30, 30, 30, 0.9);
+      backdrop-filter: blur(10px);
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 0 20px #ff4081;
+      width: 320px;
+      text-align: center;
+    }
+
+    .register-container h2 {
+      margin-bottom: 20px;
+      color: #ff4081;
+    }
+
+    input, button {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 6px;
+      border: 1px solid #444;
+      background-color: #1e1e1e;
+      color: #fff;
+      font-size: 1em;
+      transition: all 0.2s ease;
+    }
+
+    input:focus {
+      outline: none;
+      border-color: #ff4081;
+      box-shadow: 0 0 5px #ff4081;
+    }
+
+    button {
+      background-color: #ff4081;
+      border: none;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #000;
+      border: 1px solid #ff4081;
+    }
+
+    button:active {
+      transform: scale(0.97);
+    }
+
+    input:invalid {
+      border: 1px solid red;
+    }
+
+    .register-container a {
+      color: #ff4081;
+      text-decoration: none;
+    }
+
+    .register-container a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="register-container">
+    <h2>Register</h2>
+    <input type="text" placeholder="Name" id="Name" required>
+    <input type="text" placeholder="Username" id="username" required>
+    <input type="email" placeholder="Email" id="email" required>
+    <input type="number" placeholder="Age" id="age" min="1" max="120" required>
+    <input type="password" placeholder="Password" id="password" required>
+    <input type="password" placeholder="Confirm Password" id="confirmPassword" required>
+    <button onclick="register()">Register</button>
+    <p>Already have an account? <a href="login.html">Login</a></p>
+  </div>
+
+  <script>
+    function register() {
+      const name = document.getElementById('Name').value.trim();
+      const username = document.getElementById('username').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const age = document.getElementById('age').value.trim();
+      const password = document.getElementById('password').value;
+      const confirmPassword = document.getElementById('confirmPassword').value;
+
+      if (!name || !username || !email || !age || !password || !confirmPassword) {
+        alert("Please fill in all fields.");
+        return;
+      }
+
+      if (password !== confirmPassword) {
+        alert("Passwords do not match!");
+        return;
+      }
+
+      alert(`Registered successfully!\nUsername: ${username}\nAge: ${age}`);
+      window.location.href = 'home.html';
+    }
+  </script>
+</body>
+</html>
