@@ -27,7 +27,31 @@
             <li><a href="#" data-tab="profile">Profile</a></li>
         </ul>
     </div>
+    <!-- Create your own challenge -->
+    <div class="create-challenge">
+        <h3>Create a Challenge</h3>
+        <label>Choose Game:
+            <select id="createGame">
+                <option>BGMI</option>
+                <option>Call of Duty</option>
+                <option>Free Fire</option>
+            </select>
+        </label>
 
+        <label>Type:
+            <select id="options">
+                <option>1v1</option>
+                <option>Squad vs Squad</option>
+                <option>Freely</option>
+        
+        </label>
+    
+
+        <label>Prize (₹):</label>
+        <input type="number" id="customPrize" min="10" step="5" value="10"><br /><br />
+
+        <button onclick="submitChallenge()">Submit Challenge</button>
+   
     <div class="content active" id="challenges">
         <h2>Active Challenges</h2>
         <div class="submitted-challenges" id="submittedChallenges"></div>
@@ -67,7 +91,7 @@
             </div>
 
             <div class="challenge-block">
-                <h3>50 (Freely) Tournament</h3>
+                <h3>50 Tournament</h3>
                 <label>Choose Game:
                     <select>
                         <option>BGMI</option>
@@ -82,27 +106,7 @@
                 <button>Share</button>
             </div>
 
-            <!-- Create your own challenge -->
-            <div class="create-challenge">
-                <h3>Create a Challenge</h3>
-                <label>Choose Game:
-                    <select id="createGame">
-                        <option>BGMI</option>
-                        <option>Call of Duty</option>
-                        <option>Free Fire</option>
-                    </select>
-                </label><br /><br />
-
-                <label>Type:</label>
-                <button onclick="selectMatchType('1v1')">1v1</button>
-                <button onclick="selectMatchType('Squad vs Squad')">Squad vs Squad</button>
-                <button onclick="selectMatchType('Freely')">Freely</button><br /><br />
-
-                <label>Prize (₹):</label>
-                <input type="number" id="customPrize" min="10" step="5" value="10"><br /><br />
-
-
-                <button onclick="submitChallenge()">Submit Challenge</button>
+            
                 <!-- Private Chat Popup -->
                 <div id="chatPopup" class="chat-popup">
                     <div class="chat-header">
