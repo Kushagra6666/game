@@ -3,6 +3,8 @@ const contents = document.querySelectorAll('.content');
 let walletAmount = 0;
 let selectedMatchType = '';
 let selectedPrize = null;
+let activeChallenges = []; // Holds all active challenges
+let inWebsiteChallenges = []; // Holds challenges from the website (Head to Head, Squad Match, etc.)
 
 navLinks.forEach(link => {
     link.addEventListener('click', function (e) {
@@ -69,68 +71,102 @@ function selectPrize(amount) {
 
 function submitChallenge() {
     const game = document.getElementById('createGame').value;
+    const selectedMatchType = document.getElementById('options').value;
     const prize = parseInt(document.getElementById('customPrize').value);
+    const gameLink = document.getElementById('gameLink').value;
 
     if (!selectedMatchType || isNaN(prize) || prize < 10 || prize % 5 !== 0) {
-        alert("Please select a match type and valid prize amount (min ₹10, steps of 5)");
+        alert("Please select a match type and enter a valid prize amount (min ₹10, steps of 5).");
         return;
     }
 
-    const challengeDiv = document.createElement('div');
-    challengeDiv.className = 'challenge-block';
-    challengeDiv.innerHTML = `
-  <h4>${selectedMatchType} - ₹${selectedPrize}</h4>
-  <p>Game: ${game}</p>
-  <button onclick="enterChallenge('custom')">Enter</button>
-  <button onclick="acceptChallenge(this)">Accept</button>
-  <button onclick="shareChallenge()">Share</button>
-`;
-    document.getElementById('submittedChallenges').prepend(challengeDiv);
+    // Create a challenge object
+    const challenge = {
+        matchType: selectedMatchType,
+        game: game,
+        prize: prize,
+        link: gameLink
+    };
 
-    // Reset
-    selectedMatchType = '';
+    // Add the challenge to active challenges
+    activeChallenges.push(challenge);
+
+    // Render Active Challenges
+    renderActiveChallenges();
+
+    // Reset the form after submitting
+    document.getElementById('options').value = '';
     document.getElementById('customPrize').value = 10;
+    document.getElementById('gameLink').value = '';  // Reset the game link field
+
     alert("Challenge created!");
 }
+
+function renderActiveChallenges() {
+    const container = document.getElementById('submittedChallenges');
+    container.innerHTML = ''; // Clear previous challenges
+
+    // Loop through all active challenges and add them to the DOM
+    activeChallenges.forEach(challenge => {
+        const challengeDiv = document.createElement('div');
+        challengeDiv.className = 'challenge-block';
+        challengeDiv.innerHTML = `
+            <h4>${challenge.matchType} - ₹${challenge.prize}</h4>
+            <p>Game: ${challenge.game}</p>
+            <p><strong>Game Link: </strong><a href="${challenge.link}" target="_blank">${challenge.link}</a></p>
+            <button onclick="enterChallenge('${challenge.matchType}', this)">Enter</button>
+            <button onclick="acceptChallenge(this)">Accept</button>
+            <button onclick="shareChallenge()">Share</button>
+        `;
+        container.appendChild(challengeDiv);
+    });
+}
+
+
 
 
 function enterChallenge(type, btn) {
     const prizeInput = btn.parentElement.querySelector('.prizeInput');
     const prize = parseInt(prizeInput.value);
+    let gameLink = '#';  // Set placeholder link to '#'
+
+    // Get the corresponding game link based on the challenge type (currently set to #)
+    if (type === 'Head to Head') {
+        gameLink = '#';  // Placeholder link
+    } else if (type === 'Squad Match') {
+        gameLink = '#';  // Placeholder link
+    } else if (type === '50 Tournament') {
+        gameLink = '#';  // Placeholder link
+    }
+
+    const gameSelect = btn.parentElement.querySelector('select');
+    const game = gameSelect ? gameSelect.value : '';
+
     if (isNaN(prize) || prize < 10 || prize % 5 !== 0) {
         alert("Please enter a valid prize amount (starting at ₹10, steps of 5)");
         return;
     }
+
+    // Add In Website Challenges to Active Challenges section
+    const activeChallengesContainer = document.getElementById('submittedChallenges');
+    const challengeDiv = document.createElement('div');
+    challengeDiv.className = 'challenge-block';
+
+    // Add challenge details to Active Challenges
+    challengeDiv.innerHTML = `
+        <h4>${type} - ₹${prize}</h4>
+        <p>Game: ${game}</p>
+        <p><strong>Game Link:</strong> <a href="${gameLink}" target="_blank">${gameLink}</a></p>
+        <button onclick="startGame()">Start Game</button>
+        <button onclick="shareChallenge()">Share</button>
+    `;
+
+    // Prepend to Active Challenges container
+    activeChallengesContainer.prepend(challengeDiv);
+
     alert(`Entered ${type} with ₹${prize}`);
 }
-document.getElementById('proofForm').addEventListener('submit', function (e) {
-    e.preventDefault();
 
-    const playerId = document.getElementById('playerId').value;
-    const screenshotInput = document.getElementById('screenshot');
-    const file = screenshotInput.files[0];
-
-    if (!playerId || !file) {
-        alert("Please fill in all fields.");
-        return;
-    }
-
-    const reader = new FileReader();
-    reader.onload = function (e) {
-        const proofItem = document.createElement('div');
-        proofItem.className = 'proof-entry';
-        proofItem.innerHTML = `
-                <p><strong>Player ID:</strong> ${playerId}</p>
-                <img src="${e.target.result}" alt="Screenshot" width="200" />
-                <hr />
-              `;
-        document.getElementById('proofList').prepend(proofItem);
-    };
-    reader.readAsDataURL(file);
-
-    // Reset form
-    this.reset();
-});
 
 let chatTimerInterval;
 let remainingSeconds = 300;
@@ -179,3 +215,7 @@ function startChatTimer() {
         remainingSeconds--;
     }, 1000);
 }
+document.getElementById('createChallengeBtn').addEventListener('click', function () {
+    const challengeBox = document.getElementById('createChallengeContainer');
+    challengeBox.style.display = (challengeBox.style.display === 'none' || challengeBox.style.display === '') ? 'block' : 'none';
+});

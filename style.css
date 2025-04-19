@@ -66,17 +66,36 @@ body {
     margin: 0 15px;
 }
 
-.nav-bar li a {
+.nav-bar li a,
+.nav-bar li button {
     text-decoration: none;
     color: #e0e0e0;
     padding: 8px 12px;
     border-radius: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
 }
 
 .nav-bar li a:hover,
+.nav-bar li button:hover,
 .nav-bar li a.active {
     background-color: #333;
 }
+
+#createChallengeBtn {
+    background-color: #4CAF50;  /* Green button */
+    color: white;
+    border-radius: 5px;
+    padding: 8px 12px;
+    font-size: 16px;
+}
+
+#createChallengeBtn:hover {
+    background-color: #45a049;  /* Darker green on hover */
+}
+
 
 .content {
     padding: 20px;
@@ -89,30 +108,34 @@ body {
     display: flex;
 }
 
-/* Challenge Block */
+/* Challenge Block - Horizontal Rectangle Layout */
 .challenge-block {
     background-color: #1e1e1e;
     border-radius: 8px;
     padding: 20px;
-    width: 320px;
-    margin: 15px 0;
+    width: 100%;               /* take full width or set as needed */
+    max-width: 800px;          /* limit maximum size for balance */
+    margin: 15px auto;         /* center horizontally */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    
     display: flex;
-    flex-direction: column;
+    flex-direction: row;       /* make it horizontal */
     align-items: center;
+    justify-content: space-around;
     text-align: center;
+    gap: 15px;                 /* spacing between items */
+    flex-wrap: wrap;           /* allow items to wrap on small screens */
 }
 
 .challenge-block h3 {
     color: #ff4081;
-    margin-bottom: 10px;
+    margin: 0;
 }
 
 .challenge-block select,
 .challenge-block button {
-    width: 90%;
-    padding: 8px;
-    margin: 8px 0;
+    width: auto;
+    padding: 8px 16px;
     background-color: #262626;
     color: white;
     border: 1px solid #444;
@@ -141,27 +164,35 @@ body {
     align-items: center;
 }
 
-/* Create Challenge */
+/* Create Challenge - Horizontal Rectangle Layout */
 .create-challenge {
     background-color: #1e1e1e;
     padding: 20px;
     border-radius: 8px;
-    width: 350px;
-    margin-top: 30px;
+    width: 100%;                /* full width for flexible layout */
+    max-width: 800px;           /* limit width */
+    margin: 30px auto 0;        /* center horizontally, margin on top */
     box-shadow: 0 0 8px rgba(255, 64, 129, 0.2);
+    
+    display: flex;
+    flex-direction: row;        /* make elements horizontal */
+    align-items: center;
+    justify-content: space-around;
     text-align: center;
+    gap: 15px;                  /* gap between child elements */
+    flex-wrap: wrap;            /* responsive for small screens */
 }
 
 .create-challenge h3 {
     color: #ff4081;
-    margin-bottom: 20px;
+    margin: 0;
 }
 
 .create-challenge select,
 .create-challenge button {
-    width: 90%;
-    padding: 10px;
-    margin: 8px 0;
+    width: auto;
+    padding: 10px 20px;
+    margin: 0;
     border: 1px solid #333;
     background-color: #262626;
     color: white;
